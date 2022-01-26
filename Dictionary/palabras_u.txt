@@ -694,7 +694,7 @@ undulara
 undulará
 undularais
 unduláramos
-undularan
+undularan       
 undularán
 undularas
 undularás

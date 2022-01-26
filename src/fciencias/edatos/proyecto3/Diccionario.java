@@ -1,7 +1,7 @@
-
 package fciencias.edatos.proyecto3;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Scanner;
 import java.io.BufferedReader;
 import java.util.Arrays;
 /**
@@ -60,6 +60,7 @@ public class Diccionario {
                 e2.printStackTrace();
             }
         }
+        Arrays.sort(subTab);
         return subTab;
 
     }
@@ -82,49 +83,49 @@ public class Diccionario {
     private int getSize(char a){
         switch (a) {
             case 'a':
-                return 98034; //294757
+                return 97893; //294757
             case 'b':
-                return 57398;
+                return 17398;
             case 'c':
                 return 66785;
             case 'd':
                 return 84428;
             case 'e':
-                return 94307;
+                return 94257;
             case 'f':
-                return 15196;
+                return 15190;
             case 'g':
-                return 13330;
+                return 13328;
             case 'h':
                 return 11323;
             case 'i':
-                return 19152;
+                return 19094;
             case 'j':
                 return 5548;
             case 'k':
-                return 198;
+                return 197;
             case 'l':
                 return 12500;
             case 'm':
                 return 28604;
             case 'n':
-                return 5408;
+                return 5407;
             case 'ñ':
-                return 315;
+                return 314;
             case 'o':
-                return 7840;
+                return 7481;
             case 'p':
-                return 42484;
+                return 42481;
             case 'q':
                 return 2041;
             case 'r':
                 return 47769;
             case 's':
-                return 27717;
+                return 27716;
             case 't':
                 return 27880;
             case 'u':
-                return 2340;
+                return 2323;
             case 'v':
                 return 10698;
             case 'w':
@@ -142,87 +143,53 @@ public class Diccionario {
     }
 
     public boolean search(String palabra){
+        String word = palabra.toLowerCase();
         //Buscar en el mapa
-        String[] subTab = bank.get(palabra.charAt(0));
+        System.out.println("\n\tCaracter:" + word.charAt(0));
+        String[] subTab = bank.get(word.charAt(0));
         
-        try {
-            
-            System.out.println("Insdice : "+Arrays.binarySearch(subTab, palabra));
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
-        return (Arrays.binarySearch(subTab, palabra) >=0) ? true :false; 
+        System.out.println("Indice : "+Arrays.binarySearch(subTab, word));
+        return (Arrays.binarySearch(subTab, word) >=0) ? true :false; 
     }
 
-        private int getCapacity(char a){
-            switch (a) {
-                case 'a':
-                    return 2947729; //294757
-                case 'b':
-                    return 172147;
-                case 'c':
-                    return 155231;
-                case 'd':
-                    return 107119;
-                case 'e':
-                    return 282911;
-                case 'f':
-                    return 45587;
-                case 'g':
-                    return 39989;
-                case 'h':
-                    return 33961;
-                case 'i':
-                    return 57457;
-                case 'j':
-                    return 16649;
-                case 'k':
-                    return 571;
-                case 'l':
-                    return 487469;
-                case 'm':
-                    return 85817;
-                case 'n':
-                    return 17167;
-                case 'ñ':
-                    return 17167;
-                case 'o':
-                    return 22571;
-                case 'p':
-                    return 127447;
-                case 'q':
-                    return 6121;
-                case 'r':
-                    return 143719;
-                case 's':
-                    return 83311;
-                case 't':
-                    return 83639;
-                case 'u':
-                    return 7019;
-                case 'v':
-                    return 32099;
-                case 'w':
-                   return 1597;
-                case 'x':
-                    return 4597;
-                case 'y':
-                    return 69191;
-                case 'z':
-                    return 12347;
-                default:
-                    return 0;
-            }
-        
-    }
     public static void main(String[] args) {
-        Diccionario d = new  Diccionario();
-        String[] p = d.readBank('a');
-        //System.out.println("\n\tFunciona?" + p.length  );
-        //System.out.println("\n\tFunciona?" + p.length + "\t" + p[0] + "\t" + p[1] );
-        
-        System.out.println("\n\n\tPrueba busqueda: buscar - dfdvdfá \t:  " + d.search("mixturará"));
+        Diccionario d = new Diccionario();
+        //Pruebas
+        String[] p = d.readBank('u');
+        //System.out.println("\n\n\tuno existe? \t " + Arrays.binarySearch(p,"uno"));
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                do {
+                    System.out.println("\n\n\tPruebas\n"+ 
+                    "1.- Buscar palabra.\n\n"+
+                    "2.- Salir");
+                    int option  = Integer.parseInt(sc.nextLine());
+                    switch (option) {
+                        case 1:
+                            System.out.println("\n\tIngrese una palabra:");
+                            String palabra = sc.nextLine();
+                            System.out.println("\n\n\tLa palabra " + palabra+ " existe?\t" + d.search(palabra));
+                            
+                            break;
+                    
+                        case 2:
+                            System.out.println("\n\n\tSaliendo...");
+                            return;
+                        default:
+                            System.out.println("\n\nOpcion invalida");
+                            break;
+                    }
+                } while (true);
+            } catch (Exception e) {
+                //TODO: handle exception
+                System.out.println("\n\nEntrada no valida.");
+            }
 
+            
+        }
+        
+        
         
         
     }
