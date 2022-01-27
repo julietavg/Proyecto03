@@ -2,9 +2,16 @@ package fciencias.edatos.proyecto3;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.util.Arrays;
+import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Clase que modela un diccionario en español.
@@ -14,24 +21,28 @@ import java.util.Arrays;
  * @version 1.0 Enero 2022.
  * @since EDD2021-1
  */
-public class Diccionario {
+public class Diccionario implements Serializable{
 
     /** Banco de palabras */
     private Map<Character, String[]> bank;
 
+    /*Ruta */
     private final String file = "Dictionary/diccionarioCompleto.txt";
+
+    private final String archivo = "diccionario.ser";
 
     private final char[] abc = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-    // Construir un diccionario
+    /**
+     * Construe un diccionario.
+     */
     public Diccionario() {
-        builDictionary();
+        buildDiccionario();
     }
 
     /**
-     * Lee un archivo txt y almacena la informacion obtenida en una tabla hash.
-     * 
+     * Lee un archivo txt y almacena la informacion obtenida en un arreglo.
      * @return un arreglo con todos lo elementos del archivo
      */
 
@@ -39,8 +50,6 @@ public class Diccionario {
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
-        // AbstractHashMap<String, String> subTab = new
-        // AbstractHashMap<>(getCapacity(c));
         String[] subTab = new String[646615];
         int cont = 0;
         try {
@@ -65,13 +74,46 @@ public class Diccionario {
                 e2.printStackTrace();
             }
         }
-        // Arrays.sort(subTab);
-        System.out.println("\ntotal size: " + cont);
         return subTab;
 
     }
 
-    // fill Map
+    private void buildDiccionario(){
+        //Des-Serializacion
+        FileInputStream fis =null;
+        ObjectInputStream ois =null;
+
+        try {
+
+            fis = new FileInputStream(archivo);
+            ois = new ObjectInputStream(fis);
+            bank = (AbstractHashMap<Character,String[]>) ois.readObject();
+            
+        } catch (FileNotFoundException fnfe) {
+            //Construye el diccionario de 0
+            builDictionary();
+        }catch (ClassNotFoundException cnfe){
+            System.out.println(cnfe);
+            cnfe.printStackTrace();
+
+        }catch(IOException ioe){
+            System.out.println(ioe);
+            ioe.printStackTrace();
+        }finally{
+            try {
+                if(fis != null)
+                    fis.close();
+                
+                if(ois !=  null)
+                    ois.close();
+                
+            } catch (Exception e) {
+               System.out.println(e);
+               e.printStackTrace();
+            }
+        }
+    }
+    /* Construye la tabla hash*/
     private void builDictionary() {
         String[] total = readBank();
         try {
@@ -85,7 +127,8 @@ public class Diccionario {
         }
 
     }
-
+    
+    //Auxiliar para construir el banco de palabras
     private String[] builder(char c, String[]bank){
         int size =getSize(c);
         String[]subTab = new String[size];
@@ -132,27 +175,30 @@ public class Diccionario {
             
 
         } catch (Exception e) {
-
-            //TODO: handle exception
+            System.out.println("\n\tOcurrió algo inesperado (;._.)");
         }
         
         return subTab;
     }
 
+    /**
+     * Busca una palabra en el diccionario.
+     * @param palabra La palabra a buscar.
+     * @return true si esta en el diccionario, false en otro caso.
+     */
     public boolean search(String palabra) {
 
         // Buscar en el mapa
-        System.out.println("\n\tCaracter:" + searchHelper(palabra.charAt(0)));
         String[] subTab = bank.get(searchHelper(palabra.charAt(0)));
         Arrays.sort(subTab);
-
-        System.out.println("Indice : " + Arrays.binarySearch(subTab, palabra));
         return (Arrays.binarySearch(subTab, palabra) >= 0) ? true : false;
     }
 
+
+    //Auxuliar para buscar palabras que empicen con una vocal con acento
     private char searchHelper(char c) {
 
-        if (c == 'á' || c == 'é' || c == 'í' || c == 'ó' || c == 'ú') {
+        if (c == 'á' || c == 'é' || c == 'í' || c == 'ó' || c == 'ú' || c=='ñ') {
             switch (c) {
                 case 'á':
                     return 'a';
@@ -164,6 +210,8 @@ public class Diccionario {
                     return 'o';
                 case 'ú':
                     return 'u';
+                case 'ñ':
+                    return 'n';
                 default:
                     break;
             }
@@ -172,6 +220,9 @@ public class Diccionario {
 
     }
 
+    /*Auxiliar para fixWord, si la inicial de una palabra empieza con acento regresa su variante
+     *sin acentos, es util para obtener las longitudes de los arreglos -> contar palabras  
+    */
     private char readHelper(String palabra) {
         char c = palabra.toLowerCase().charAt(0);
 
@@ -202,6 +253,7 @@ public class Diccionario {
 
     }
 
+    /* Auxiliar arreglar palabras con acento o simbolos en las inciales--sin modificar el diccionario*/
     private char fixWord(String w) {
         char a = readHelper(w);
         if (a != 'a' && a != 'b' && a != 'c' && a != 'd' && a != 'e' && a != 'f' && a != 'g' && a != 'h' && a != 'i' &&
@@ -217,6 +269,7 @@ public class Diccionario {
         return a;
     }
 
+    //Obtiene la cantidad de palabras que empiezan con cierto caracter -aux de getSize
     private int getSize(String[] bank, char c) {
         int cont = 0;
         String m = "";
@@ -232,6 +285,7 @@ public class Diccionario {
         return cont;
     }
 
+    //De acuerdo al caracter asigna la cantidad de palabras que hay que empieza con dicho carac.
     private int getSize(char a) {
         switch (a) {
             case 'a':
@@ -292,6 +346,7 @@ public class Diccionario {
 
     }
 
+    //Devuelve un arreglo con la cantidad de palabras que hay de cada letra del alfabeto.
     private int[] sizeHelper(String[] bank) {
         int[] sizes = new int[26];
 
@@ -299,12 +354,44 @@ public class Diccionario {
             sizes[n] = getSize(bank, abc[n]);
         }
         // System.out.println(sizes.toString());
-        return sizes;
+        return sizes;      
 
+    }
+
+    private void saveDictionary(){
+
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = new FileOutputStream(archivo);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(bank);
+        } catch (Exception e) {
+            System.out.println(e);
+        }finally{
+            try {
+                if(fos != null)
+                    fos.close();
+                if(oos != null)
+                    oos.close();
+                
+            } catch (Exception e) {
+                System.out.println(e);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean checkFile(){
+        File file = new File(archivo);
+        return file.isFile();
     }
 
     public static void main(String[] args) {
         Diccionario d = new Diccionario();
+
+        System.out.println(d.bank.size());
+        System.out.println(d.bank.get('e').length );
         // Pruebas
         // String[] p = d.readBank('u');
         // System.out.println("\n\n\tuno existe? \t " + Arrays.binarySearch(p,"uno"));
@@ -327,7 +414,9 @@ public class Diccionario {
                             break;
                     
                         case 2:
-                            System.out.println("\n\n\tSaliendo...");
+                            System.out.println(d.checkFile());
+                            if(!d.checkFile())
+                                d.saveDictionary();
                             return;
                         default:
                             System.out.println("\n\nOpcion invalida");
@@ -337,6 +426,7 @@ public class Diccionario {
             } catch (Exception e) {
                 //TODO: handle exception
                 System.out.println("\n\nOperacion no soportada :v.");
+                e.printStackTrace();
             }
 
             

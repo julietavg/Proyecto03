@@ -1,4 +1,5 @@
 package fciencias.edatos.proyecto3;
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Random;
  * @version 2.0 Enero 2022. Anterior 1.0 Enero 2021.
  * @since Estructuras de Datos 2022-1.
  */
-public class AbstractHashMap<K, V> implements Map<K, V> {
+public class AbstractHashMap<K, V> implements Map<K, V>, Serializable {
 
 	/** Arreglo de elementos. */
 	private V[] table;
