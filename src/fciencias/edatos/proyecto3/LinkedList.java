@@ -219,7 +219,11 @@ public class LinkedList<E> implements Serializable {
         return eliminado.getElement();
     }
 
-    
+    /**
+     * Añadir elemento dado un indice.
+     * @param i indice.
+     * @param e elemento.
+     */
     public void add(int i, E e) {
         try {
             Node<E> newNode = new Node<>(e);
