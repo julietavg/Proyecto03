@@ -3,9 +3,15 @@ import java.util.Random;
 
 /**
  * Clase para utilidades de la secuencia inicial
- * @author
+ * @author Vargas Gutiérrez Julieta 318341945
+ * @version 1.0 Enero 2022
+ * @since EDD2021-1
  */
 public class Inicial extends Thread {
+
+
+    /** Numero de secuencia */
+    private int sequence;
 
     /**
      * Método booleano que te dice si un string contiene solo letras
@@ -25,7 +31,7 @@ public class Inicial extends Thread {
     /**
      * Genera una secuencia de letras del abecedario sin W X y Q
      *
-     * @param len
+     * @param len Numero de letras a generar
      * @return la secuencia de letras
      */
     public String generateRandom(int len){

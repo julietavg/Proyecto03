@@ -85,7 +85,7 @@ public class AbstractHashMap<K, V> implements Map<K, V>, Serializable {
 		// System.out.println("Valor: " + value + "\nPosicion: " + pos);
 		V oldValue = table[pos];
 		if (oldValue != null) {
-			System.out.println("\n\tRepetido!!" + oldValue);
+			System.out.println("\n\tRepetido!!  value: " + oldValue+ " key: "+key);
 		}
 		table[pos] = value;
 		size++;

@@ -4,7 +4,6 @@ import java.io.Serializable;
  * Clase que implementa una lista simplemente ligada.
  * 
  * @author Reyes Ramos Luz María 318211073
- * @author Vargas Gutiérrez Julieta 318341945
  * @version 2.0 Diciembre 11, 2021
  * @since EDD-2022-1
  */
@@ -220,6 +219,7 @@ public class LinkedList<E> implements Serializable {
         return eliminado.getElement();
     }
 
+    
     public void add(int i, E e) {
         try {
             Node<E> newNode = new Node<>(e);
@@ -248,6 +248,22 @@ public class LinkedList<E> implements Serializable {
     }
 
 
+    public void remove(E e){
+        Node<E> aux = head;
+        try {
+            for(int i = 0; i < size; i++){
+                if(aux.getElement().equals(e)){
+                    remove(i);
+                    return;
+                }
+                aux = aux.getNext();
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * Convierte una lista a un array de  Strings
      * @return String array
@@ -270,4 +286,14 @@ public class LinkedList<E> implements Serializable {
         }
         return null;
     }
+
+
+    public LinkedList<String> toList(String cadena){
+       LinkedList<String> list =  new LinkedList<>();
+       for(int n = 0; n<cadena.length(); n++){
+           list.add(list.size-1,cadena.charAt(n)+"") ;
+       }
+       return list;
+    }
+
 }

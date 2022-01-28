@@ -16,7 +16,6 @@ import java.io.ObjectOutputStream;
  * Clase que modela un diccionario en español.
  * 
  * @author Reyes Ramos Luz María 318211073
- * @author
  * @version 1.0 Enero 2022.
  * @since EDD2021-1
  */
@@ -188,6 +187,7 @@ public class Diccionario implements Serializable{
      */
     public boolean search(String palabra) {
 
+        palabra = palabra.toLowerCase();
         // Buscar en el mapa
         String[] subTab = bank.get(searchHelper(palabra.charAt(0)));
         Arrays.sort(subTab);

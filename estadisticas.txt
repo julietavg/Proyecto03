@@ -1,9 +1,0 @@
-		ESTADISTICAS
-
-
-	Secuencia - 0	User:null
-
-
-	Palabra:espachurraríamos	256pts
-	Palabra:eslabonaríamos	196pts
-	Palabra:eslabonas	81pts
