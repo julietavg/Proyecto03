@@ -53,7 +53,7 @@ public class AbstractHashMap<K, V> implements Map<K, V>, Serializable {
 	 * Crea un nuevo AbstractHashMap.
 	 */
 	public AbstractHashMap() {
-		this(95131);
+		this(9829);
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class AbstractHashMap<K, V> implements Map<K, V>, Serializable {
 		// System.out.println("Valor: " + value + "\nPosicion: " + pos);
 		V oldValue = table[pos];
 		if (oldValue != null) {
-			System.out.println("\n\tRepetido!!");
+			System.out.println("\n\tRepetido!!" + oldValue);
 		}
 		table[pos] = value;
 		size++;

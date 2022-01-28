@@ -39,6 +39,7 @@ public class Diccionario implements Serializable{
      */
     public Diccionario() {
         buildDiccionario();
+        saveDictionary();
     }
 
     /**
@@ -358,7 +359,10 @@ public class Diccionario implements Serializable{
 
     }
 
-    private void saveDictionary(){
+    /**
+     * Guarda el diccionario una vez construido
+     */
+    public void saveDictionary(){
 
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
@@ -382,11 +386,19 @@ public class Diccionario implements Serializable{
         }
     }
 
-    private boolean checkFile(){
+    /**
+     * Verfica si el archivo del diccionario existe,
+     * sí no, lo crea.
+     */
+    public void checkFile(){
         File file = new File(archivo);
-        return file.isFile();
+        if(!file.exists())
+            saveDictionary();
     }
 
+
+
+    /*
     public static void main(String[] args) {
         Diccionario d = new Diccionario();
 
@@ -397,7 +409,7 @@ public class Diccionario implements Serializable{
         // System.out.println("\n\n\tuno existe? \t " + Arrays.binarySearch(p,"uno"));
         Scanner sc = new Scanner(System.in);
 
-
+        
         while (true) {
             try {
                 do {
@@ -414,9 +426,6 @@ public class Diccionario implements Serializable{
                             break;
                     
                         case 2:
-                            System.out.println(d.checkFile());
-                            if(!d.checkFile())
-                                d.saveDictionary();
                             return;
                         default:
                             System.out.println("\n\nOpcion invalida");
@@ -432,6 +441,6 @@ public class Diccionario implements Serializable{
             
         }
 
-    }
+    } */
 
 }
