@@ -232,6 +232,10 @@ public class Game {
 
     // Validar antes del diccionario
 
+    /**
+     * Verifica si las palabras son validas para buscar en el diccionario
+     * @return arreglo de Strings
+     */
     public String[] verifica(){
         String[] wordsUser = null;
         try {
