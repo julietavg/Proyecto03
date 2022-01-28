@@ -1,5 +1,4 @@
 package fciencias.edatos.proyecto3;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class Diccionario implements Serializable{
      */
     public Diccionario() {
         buildDiccionario();
-        saveDictionary();
+    
     }
 
     /**
